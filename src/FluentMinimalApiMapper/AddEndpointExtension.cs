@@ -28,10 +28,16 @@ public static class AddEndpointExtension
 
         return builder;
     }
-    
+
     public static WebApplicationBuilder AddEndpoints(this WebApplicationBuilder builder)
     {
-        var currentAssembly = Assembly.GetExecutingAssembly();
-        return builder.AddEndpoints(new[] { currentAssembly });
+        var entryAssembly = Assembly.GetEntryAssembly();
+
+        if (entryAssembly is null)
+        {
+            throw new InvalidOperationException("Entry assembly not found.");
+        }
+
+        return builder.AddEndpoints(new[] { entryAssembly });
     }
 }
