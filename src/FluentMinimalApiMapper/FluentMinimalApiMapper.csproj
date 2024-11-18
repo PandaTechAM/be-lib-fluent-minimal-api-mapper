@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageIcon>pandatech.png</PackageIcon>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Authors>Pandatech</Authors>
         <Copyright>MIT</Copyright>
-        <Version>1.1.0</Version>
+        <Version>2.0.0</Version>
         <PackageId>Pandatech.FluentMinimalApiMapper</PackageId>
         <Title>FluentMinimalApiMapper: Effortless Endpoint Integration</Title>
         <PackageTags>Pandatech, library, MinimalAPI, AutoMapping, FluentAPI, EndpointRegistration</PackageTags>        
         <Description>FluentMinimalApiMapper redefines the simplicity of minimal API development, offering an intuitive and automated approach to endpoint mapping. With a focus on streamlined integration, this NuGet package by PandaTech is the perfect tool for developers looking to enhance the efficiency and readability of their modular applications. Dive into the seamless world of API development with FluentMinimalApiMapper, where every route is a journey simplified.</Description>
         <RepositoryUrl>https://github.com/PandaTechAM/be-lib-fluent-minimal-api-mapper</RepositoryUrl>
-        <PackageReleaseNotes>Fix bug</PackageReleaseNotes>
+        <PackageReleaseNotes>.Net 9 upgrade</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     </ItemGroup>
 
 </Project>
