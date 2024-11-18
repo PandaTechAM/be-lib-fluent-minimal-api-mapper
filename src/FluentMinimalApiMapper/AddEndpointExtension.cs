@@ -38,6 +38,6 @@ public static class AddEndpointExtension
             throw new InvalidOperationException("Entry assembly not found.");
         }
 
-        return builder.AddEndpoints(new[] { entryAssembly });
+        return builder.AddEndpoints([entryAssembly]);
     }
 }
