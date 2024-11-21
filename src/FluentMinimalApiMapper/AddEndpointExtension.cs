@@ -7,7 +7,7 @@ namespace FluentMinimalApiMapper;
 
 public static class AddEndpointExtension
 {
-    public static WebApplicationBuilder AddEndpoints(this WebApplicationBuilder builder,
+    public static WebApplicationBuilder AddMinimalApis(this WebApplicationBuilder builder,
         IEnumerable<Assembly> assemblies)
     {
         var serviceDescriptors = new List<ServiceDescriptor>();
@@ -29,7 +29,7 @@ public static class AddEndpointExtension
         return builder;
     }
 
-    public static WebApplicationBuilder AddEndpoints(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddMinimalApis(this WebApplicationBuilder builder)
     {
         var entryAssembly = Assembly.GetEntryAssembly();
 
@@ -38,6 +38,6 @@ public static class AddEndpointExtension
             throw new InvalidOperationException("Entry assembly not found.");
         }
 
-        return builder.AddEndpoints([entryAssembly]);
+        return builder.AddMinimalApis([entryAssembly]);
     }
 }
