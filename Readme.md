@@ -33,7 +33,7 @@ Integrating FluentMinimalApiMapper into your project is straightforward. Below a
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 // Single project with one assembly
-builder.AddEndpoints();
+builder.AddMinimalApis();
 var app = builder.Build();
 app.MapEndpoints();
 app.Run();
@@ -44,7 +44,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Multiple projects with multiple assemblies (e.g., modular monolithic)
 builder.AddEndpoints([typeof(Startup).Assembly, typeof(OtherAssembly).Assembly]);
 var app = builder.Build();
-app.MapEndpoints();
+app.MapMinimalApis();
 app.Run();
 ```
 

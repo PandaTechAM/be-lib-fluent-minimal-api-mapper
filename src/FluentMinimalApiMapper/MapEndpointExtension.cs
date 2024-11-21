@@ -6,7 +6,7 @@ namespace FluentMinimalApiMapper;
 
 public static class MapEndpointExtension
 {
-    public static WebApplication MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
+    public static WebApplication MapMinimalApis(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
     {
         var endpoints = app.Services
             .GetRequiredService<IEnumerable<IEndpoint>>();
