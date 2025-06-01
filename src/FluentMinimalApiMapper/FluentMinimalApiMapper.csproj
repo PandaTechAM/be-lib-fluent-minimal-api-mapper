@@ -8,7 +8,7 @@
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Authors>Pandatech</Authors>
         <Copyright>MIT</Copyright>
-        <Version>2.0.2</Version>
+        <Version>2.0.3</Version>
         <PackageId>Pandatech.FluentMinimalApiMapper</PackageId>
         <Title>FluentMinimalApiMapper: Effortless Endpoint Integration</Title>
         <PackageTags>Pandatech, library, MinimalAPI, AutoMapping, FluentAPI, EndpointRegistration</PackageTags>        
@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
     </ItemGroup>
 
 </Project>
