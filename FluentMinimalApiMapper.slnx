@@ -1,0 +1,14 @@
+<Solution>
+    <Folder Name="/Solution Items/">
+        <File Path=".github/workflows/main.yml"/>
+        <File Path=".gitignore"/>
+        <File Path="global.json"/>
+        <File Path="Readme.md"/>
+    </Folder>
+    <Folder Name="/src/">
+        <Project Path="src/FluentMinimalApiMapper/FluentMinimalApiMapper.csproj"/>
+    </Folder>
+    <Folder Name="/tests/">
+        <Project Path="tests/FluentMinimalApiMapper.Demo/FluentMinimalApiMapper.Demo.csproj"/>
+    </Folder>
+</Solution>
