@@ -10,10 +10,7 @@ public static class WebAppExtensions
 {
     public static WebApplicationBuilder AddMinimalApis(this WebApplicationBuilder builder, params Assembly[] assemblies)
     {
-        if (assemblies.Length == 0)
-        {
-            return builder;
-        }
+        if (assemblies.Length == 0) return builder;
 
         var candidates = assemblies
             .SelectMany(a => a.DefinedTypes)
@@ -22,9 +19,7 @@ public static class WebAppExtensions
             .ToArray();
 
         foreach (var t in candidates)
-        {
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IEndpoint), t));
-        }
 
         return builder;
     }
@@ -43,10 +38,7 @@ public static class WebAppExtensions
         IEndpointRouteBuilder builder =
             routeGroupBuilder is null ? app : routeGroupBuilder;
 
-        foreach (var endpoint in endpoints)
-        {
-            endpoint.AddRoutes(builder);
-        }
+        foreach (var endpoint in endpoints) endpoint.AddRoutes(builder);
 
         return app;
     }
