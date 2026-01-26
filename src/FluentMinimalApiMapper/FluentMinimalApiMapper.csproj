@@ -8,13 +8,13 @@
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Authors>Pandatech</Authors>
         <Copyright>MIT</Copyright>
-        <Version>3.0.0</Version>
+        <Version>3.0.1</Version>
         <PackageId>Pandatech.FluentMinimalApiMapper</PackageId>
         <Title>FluentMinimalApiMapper: Effortless Endpoint Integration</Title>
         <PackageTags>Pandatech, library, MinimalAPI, AutoMapping, FluentAPI, EndpointRegistration</PackageTags>
         <Description>FluentMinimalApiMapper redefines the simplicity of minimal API development, offering an intuitive and automated approach to endpoint mapping. With a focus on streamlined integration, this NuGet package by PandaTech is the perfect tool for developers looking to enhance the efficiency and readability of their modular applications. Dive into the seamless world of API development with FluentMinimalApiMapper, where every route is a journey simplified.</Description>
         <RepositoryUrl>https://github.com/PandaTechAM/be-lib-fluent-minimal-api-mapper</RepositoryUrl>
-        <PackageReleaseNotes>dotnet 10 update</PackageReleaseNotes>
+        <PackageReleaseNotes>nuget updates</PackageReleaseNotes>
 
         <!-- Never run analyzers as part of compilation (local, CI, dotnet build/test/publish) -->
         <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
@@ -32,9 +32,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1"/>
-        <PackageReference Include="Pandatech.Analyzers" Version="1.6.0"/>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.17.0.131074">
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+        <PackageReference Include="Pandatech.Analyzers" Version="2.1.0" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.18.0.131500">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
