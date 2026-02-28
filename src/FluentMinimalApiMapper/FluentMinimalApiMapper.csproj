@@ -1,40 +1,57 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
         <Nullable>enable</Nullable>
-        <PackageIcon>pandatech.png</PackageIcon>
-        <PackageReadmeFile>Readme.md</PackageReadmeFile>
-        <Authors>Pandatech</Authors>
-        <Copyright>MIT</Copyright>
-        <Version>3.0.1</Version>
+        <ImplicitUsings>enable</ImplicitUsings>
+
+        <IsPackable>true</IsPackable>
+
         <PackageId>Pandatech.FluentMinimalApiMapper</PackageId>
-        <Title>FluentMinimalApiMapper: Effortless Endpoint Integration</Title>
-        <PackageTags>Pandatech, library, MinimalAPI, AutoMapping, FluentAPI, EndpointRegistration</PackageTags>
-        <Description>FluentMinimalApiMapper redefines the simplicity of minimal API development, offering an intuitive and automated approach to endpoint mapping. With a focus on streamlined integration, this NuGet package by PandaTech is the perfect tool for developers looking to enhance the efficiency and readability of their modular applications. Dive into the seamless world of API development with FluentMinimalApiMapper, where every route is a journey simplified.</Description>
+        <Authors>Pandatech</Authors>
+        <Description>Lightweight auto-discovery and mapping of Minimal API endpoints across assemblies. Define IEndpoint, call AddMinimalApis and MapMinimalApis — no configuration required.</Description>
+        <PackageTags>minimal-api;minimal-apis;endpoint-mapping;auto-discovery;modular;clean-architecture</PackageTags>
+
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/PandaTechAM/be-lib-fluent-minimal-api-mapper</RepositoryUrl>
-        <PackageReleaseNotes>nuget updates</PackageReleaseNotes>
+        <PackageProjectUrl>https://github.com/PandaTechAM/be-lib-fluent-minimal-api-mapper</PackageProjectUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
-        <!-- Never run analyzers as part of compilation (local, CI, dotnet build/test/publish) -->
+        <PackageIcon>pandatech.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+
+        <Version>4.0.0</Version>
+        <PackageReleaseNotes>Multi-target net8.0/net9.0/net10.0, switched to FrameworkReference</PackageReleaseNotes>
+
+        <!-- Build quality -->
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <!-- Source/symbols -->
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+        <!-- Analyzer behavior -->
         <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-
-        <!-- Keep background/live analysis in the IDE -->
         <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-
-        <!-- Optional: ensure code-style analyzers don't run during build either -->
         <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="..\..\pandatech.png" Pack="true" PackagePath="\"/>
-        <None Include="..\..\Readme.md" Pack="true" PackagePath="\"/>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
-        <PackageReference Include="Pandatech.Analyzers" Version="2.1.0" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.18.0.131500">
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
+
+    <!-- Analyzers -->
+    <ItemGroup>
+        <PackageReference Include="Pandatech.Analyzers" Version="[2.1.0]" PrivateAssets="all"/>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="[10.18.0.131500]">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

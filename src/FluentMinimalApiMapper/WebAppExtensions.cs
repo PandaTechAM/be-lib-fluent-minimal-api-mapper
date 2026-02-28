@@ -10,13 +10,14 @@ public static class WebAppExtensions
 {
     public static WebApplicationBuilder AddMinimalApis(this WebApplicationBuilder builder, params Assembly[] assemblies)
     {
-        if (assemblies.Length == 0) return builder;
+        if (assemblies.Length == 0)
+            assemblies = [Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()];
 
         var candidates = assemblies
             .SelectMany(a => a.DefinedTypes)
-            .Where(t => t is { IsAbstract: false, IsInterface: false } && t.IsAssignableTo(typeof(IEndpoint)))
-            .Distinct()
-            .ToArray();
+            .Where(t => t is { IsAbstract: false, IsInterface: false } &&
+                        t.IsAssignableTo(typeof(IEndpoint)))
+            .Distinct();
 
         foreach (var t in candidates)
             builder.Services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IEndpoint), t));
@@ -24,21 +25,14 @@ public static class WebAppExtensions
         return builder;
     }
 
-    public static WebApplicationBuilder AddMinimalApis(this WebApplicationBuilder builder)
-    {
-        var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-        return builder.AddMinimalApis(assembly);
-    }
-
     public static WebApplication MapMinimalApis(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
     {
-        var endpoints = app.Services
-            .GetRequiredService<IEnumerable<IEndpoint>>();
+        var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
 
-        IEndpointRouteBuilder builder =
-            routeGroupBuilder is null ? app : routeGroupBuilder;
+        IEndpointRouteBuilder routeBuilder = routeGroupBuilder is null ? app : routeGroupBuilder;
 
-        foreach (var endpoint in endpoints) endpoint.AddRoutes(builder);
+        foreach (var endpoint in endpoints)
+            endpoint.AddRoutes(routeBuilder);
 
         return app;
     }
