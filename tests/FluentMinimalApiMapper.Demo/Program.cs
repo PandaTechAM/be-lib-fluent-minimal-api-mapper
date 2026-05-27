@@ -2,7 +2,11 @@ using FluentMinimalApiMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddMinimalApis();
+builder.AddMinimalApis(options =>
+   options.AddTestingEndpointEnvironments(
+      Environments.Development,
+      "QA",
+      "Local"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

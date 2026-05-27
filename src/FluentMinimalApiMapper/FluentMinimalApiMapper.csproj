@@ -21,8 +21,10 @@
         <PackageIcon>pandatech.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 
-        <Version>4.0.0</Version>
-        <PackageReleaseNotes>Multi-target net8.0/net9.0/net10.0, switched to FrameworkReference</PackageReleaseNotes>
+        <Version>4.1.0</Version>
+		<PackageReleaseNotes>
+			Added configurable testing endpoint environment registration; multi-targeted net8.0/net9.0/net10.0 and switched to FrameworkReference.
+		</PackageReleaseNotes>
 
         <!-- Build quality -->
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>

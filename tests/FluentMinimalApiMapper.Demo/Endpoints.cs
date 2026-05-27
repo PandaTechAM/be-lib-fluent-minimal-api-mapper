@@ -7,3 +7,11 @@ public class Endpoints : IEndpoint
         app.MapGet("/", () => "Hello World!");
     }
 }
+
+public class TestingEndpoints : ITestingEndpoint
+{
+    public void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapGet("/testing", () => "Hello Testing World!");
+    }
+}
