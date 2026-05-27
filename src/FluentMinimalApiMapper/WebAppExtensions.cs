@@ -8,22 +8,61 @@ namespace FluentMinimalApiMapper;
 
 public static class WebAppExtensions
 {
-    public static WebApplicationBuilder AddMinimalApis(this WebApplicationBuilder builder, params Assembly[] assemblies)
-    {
-        if (assemblies.Length == 0)
-            assemblies = [Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()];
+    public static WebApplicationBuilder AddMinimalApis(
+      this WebApplicationBuilder builder,
+      params Assembly[] assemblies)
+   {
+      return AddMinimalApisCore(builder, configureOptions: null, assemblies);
+   }
 
-        var candidates = assemblies
-            .SelectMany(a => a.DefinedTypes)
-            .Where(t => t is { IsAbstract: false, IsInterface: false } &&
-                        t.IsAssignableTo(typeof(IEndpoint)))
-            .Distinct();
+   public static WebApplicationBuilder AddMinimalApis(
+      this WebApplicationBuilder builder,
+      Action<MinimalApiOptions> configureOptions,
+      params Assembly[] assemblies)
+   {
+      return AddMinimalApisCore(builder, configureOptions, assemblies);
+   }
 
-        foreach (var t in candidates)
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IEndpoint), t));
+   private static WebApplicationBuilder AddMinimalApisCore(
+      WebApplicationBuilder builder,
+      Action<MinimalApiOptions>? configureOptions,
+      Assembly[] assemblies)
+   {
+      if (assemblies.Length == 0)
+      {
+         assemblies =
+         [
+            Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()
+         ];
+      }
 
-        return builder;
-    }
+      var options = new MinimalApiOptions();
+      configureOptions?.Invoke(options);
+
+      var endpointTypes = assemblies
+         .SelectMany(x => x.DefinedTypes)
+         .Where(x =>
+            !x.IsAbstract &&
+            !x.IsInterface &&
+            x.IsAssignableTo(typeof(IEndpoint)))
+         .Distinct();
+
+      foreach (var endpointType in endpointTypes)
+      {
+         var isTestingEndpoint = endpointType.IsAssignableTo(typeof(ITestingEndpoint));
+
+         if (isTestingEndpoint && !options.CanRegisterTestingEndpoints(builder.Environment))
+         {
+            continue;
+         }
+
+         builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Transient(typeof(IEndpoint), endpointType));
+      }
+
+      return builder;
+   }
+
 
     public static WebApplication MapMinimalApis(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
     {
