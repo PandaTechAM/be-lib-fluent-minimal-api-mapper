@@ -1,33 +1,33 @@
 ﻿using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FluentMinimalApiMapper
+namespace FluentMinimalApiMapper;
+
+/// <summary>
+///     Configures Minimal API discovery, including which environments may map testing endpoints.
+/// </summary>
+public sealed class MinimalApiOptions
 {
-    public sealed class MinimalApiOptions
+    private readonly HashSet<string> _testingEndpointEnvironments =
+        new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    ///     Adds environment names in which <see cref="ITestingEndpoint" /> endpoints are mapped.
+    /// </summary>
+    public MinimalApiOptions AddTestingEndpointEnvironments(params string[] environmentNames)
     {
-        private readonly HashSet<string> _testingEndpointEnvironments =
-           new(StringComparer.OrdinalIgnoreCase);
-
-        public MinimalApiOptions AddTestingEndpointEnvironments(params string[] environmentNames)
+        foreach (var environmentName in environmentNames)
         {
-            foreach (var environmentName in environmentNames)
+            if (!string.IsNullOrWhiteSpace(environmentName))
             {
-                if (!string.IsNullOrWhiteSpace(environmentName))
-                {
-                    _testingEndpointEnvironments.Add(environmentName.Trim());
-                }
+                _testingEndpointEnvironments.Add(environmentName.Trim());
             }
-
-            return this;
         }
 
-        internal bool CanRegisterTestingEndpoints(IHostEnvironment environment)
-        {
-            return _testingEndpointEnvironments.Contains(environment.EnvironmentName);
-        }
+        return this;
+    }
+
+    internal bool CanRegisterTestingEndpoints(IHostEnvironment environment)
+    {
+        return _testingEndpointEnvironments.Contains(environment.EnvironmentName);
     }
 }
