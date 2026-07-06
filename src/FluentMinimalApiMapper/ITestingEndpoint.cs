@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace FluentMinimalApiMapper;
 
-namespace FluentMinimalApiMapper
+/// <summary>
+///     Marks an endpoint that is mapped only in the environments configured via
+///     <see cref="MinimalApiOptions.AddTestingEndpointEnvironments" />.
+/// </summary>
+public interface ITestingEndpoint : IEndpoint
 {
-    public interface ITestingEndpoint : IEndpoint
-    {
-    }
 }

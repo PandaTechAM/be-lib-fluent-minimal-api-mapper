@@ -6,64 +6,78 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace FluentMinimalApiMapper;
 
+/// <summary>
+///     Extension methods for discovering and mapping <see cref="IEndpoint" /> implementations.
+/// </summary>
 public static class WebAppExtensions
 {
+    /// <summary>
+    ///     Discovers and registers every <see cref="IEndpoint" /> in the given assemblies, or the entry assembly when none are
+    ///     supplied.
+    /// </summary>
     public static WebApplicationBuilder AddMinimalApis(
-      this WebApplicationBuilder builder,
-      params Assembly[] assemblies)
-   {
-      return AddMinimalApisCore(builder, configureOptions: null, assemblies);
-   }
+        this WebApplicationBuilder builder,
+        params Assembly[] assemblies)
+    {
+        return AddMinimalApisCore(builder, null, assemblies);
+    }
 
-   public static WebApplicationBuilder AddMinimalApis(
-      this WebApplicationBuilder builder,
-      Action<MinimalApiOptions> configureOptions,
-      params Assembly[] assemblies)
-   {
-      return AddMinimalApisCore(builder, configureOptions, assemblies);
-   }
+    /// <summary>
+    ///     Discovers and registers every <see cref="IEndpoint" />, applying the supplied options (e.g. testing-endpoint
+    ///     environments).
+    /// </summary>
+    public static WebApplicationBuilder AddMinimalApis(
+        this WebApplicationBuilder builder,
+        Action<MinimalApiOptions> configureOptions,
+        params Assembly[] assemblies)
+    {
+        return AddMinimalApisCore(builder, configureOptions, assemblies);
+    }
 
-   private static WebApplicationBuilder AddMinimalApisCore(
-      WebApplicationBuilder builder,
-      Action<MinimalApiOptions>? configureOptions,
-      Assembly[] assemblies)
-   {
-      if (assemblies.Length == 0)
-      {
-         assemblies =
-         [
-            Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()
-         ];
-      }
+    private static WebApplicationBuilder AddMinimalApisCore(
+        WebApplicationBuilder builder,
+        Action<MinimalApiOptions>? configureOptions,
+        Assembly[] assemblies)
+    {
+        if (assemblies.Length == 0)
+        {
+            assemblies =
+            [
+                Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()
+            ];
+        }
 
-      var options = new MinimalApiOptions();
-      configureOptions?.Invoke(options);
+        var options = new MinimalApiOptions();
+        configureOptions?.Invoke(options);
 
-      var endpointTypes = assemblies
-         .SelectMany(x => x.DefinedTypes)
-         .Where(x =>
-            !x.IsAbstract &&
-            !x.IsInterface &&
-            x.IsAssignableTo(typeof(IEndpoint)))
-         .Distinct();
+        var endpointTypes = assemblies
+            .SelectMany(x => x.DefinedTypes)
+            .Where(x =>
+                !x.IsAbstract &&
+                !x.IsInterface &&
+                x.IsAssignableTo(typeof(IEndpoint)))
+            .Distinct();
 
-      foreach (var endpointType in endpointTypes)
-      {
-         var isTestingEndpoint = endpointType.IsAssignableTo(typeof(ITestingEndpoint));
+        foreach (var endpointType in endpointTypes)
+        {
+            var isTestingEndpoint = endpointType.IsAssignableTo(typeof(ITestingEndpoint));
 
-         if (isTestingEndpoint && !options.CanRegisterTestingEndpoints(builder.Environment))
-         {
-            continue;
-         }
+            if (isTestingEndpoint && !options.CanRegisterTestingEndpoints(builder.Environment))
+            {
+                continue;
+            }
 
-         builder.Services.TryAddEnumerable(
-            ServiceDescriptor.Transient(typeof(IEndpoint), endpointType));
-      }
+            builder.Services.TryAddEnumerable(
+                ServiceDescriptor.Transient(typeof(IEndpoint), endpointType));
+        }
 
-      return builder;
-   }
+        return builder;
+    }
 
 
+    /// <summary>
+    ///     Maps the routes of every registered <see cref="IEndpoint" />, optionally onto the given route group.
+    /// </summary>
     public static WebApplication MapMinimalApis(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
     {
         var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
@@ -71,7 +85,9 @@ public static class WebAppExtensions
         IEndpointRouteBuilder routeBuilder = routeGroupBuilder is null ? app : routeGroupBuilder;
 
         foreach (var endpoint in endpoints)
+        {
             endpoint.AddRoutes(routeBuilder);
+        }
 
         return app;
     }
